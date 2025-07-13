@@ -1,0 +1,22 @@
+body {
+  font-family: sans-serif;
+  padding: 10px;
+}
+#chat-window {
+  border: 1px solid #ccc;
+  height: 300px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+  padding: 5px;
+}
+.message {
+  margin: 5px 0;
+}
+.user {
+  text-align: right;
+  color: blue;
+}
+.bot {
+  text-align: left;
+  color: green;
+}
