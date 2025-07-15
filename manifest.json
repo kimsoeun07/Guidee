@@ -3,20 +3,19 @@
   "description": "Base Level Extension",
   "version": "1.0",
   "manifest_version": 3,
+  "permissions": ["downloads", "tabs", "sidePanel", "scripting", "runtime"],
   "side_panel": {
     "default_path": "popup.html"
   },
-  "permissions": [
-    "sidePanel"
-  ],
   "background": {
     "service_worker": "background.js"
   },
   "content_scripts": [
-  {
-    "matches": ["<all_urls>"],
-    "js": ["content.js"],
-    "run_at": "document_idle"
-  }
-]
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "host_permissions": ["<all_urls>"]
 }
