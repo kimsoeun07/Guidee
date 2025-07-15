@@ -1,12 +1,12 @@
 console.log("Content script loaded!");
 
 // 강조할 키워드
-const  keyword = "공지사항";
+const  keyword = "사업용";
 
 function highlightButtons() {
-  const buttons = document.querySelectorAll("button, input[type='button'], a");
+  const buttons = document.querySelectorAll("button, input[type='button'], a, span, div");
   for (let btn of buttons) {
-    const text = (btn.innerText || btn.value || '').trim().toLowerCase();
+    const text = (btn.innerText || btn.value || '' || btn.textContent).trim().toLowerCase();
     if (text.includes(keyword.toLowerCase())) {
       // btn.style.border = "10px solid #ff4d4d";
       // btn.style.padding = "30px";

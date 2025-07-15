@@ -27,3 +27,11 @@ button{
     font-size: 16px;
     white-space: nowrap;
 }
+
+#questionArea{
+    width: 320px;
+    font-size: 25px;
+    font-weight: bold;
+    white-space: pre-wrap;
+    word-break: break-word;
+}

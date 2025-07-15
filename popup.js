@@ -3,7 +3,7 @@ console.log("Popup script loaded!");
 const SendMessage = (message) => {
   const responseArea = document.getElementById('questionArea');
   if (questionArea) {
-    questionArea.textContent = message;
+    questionArea.textContent = `나 : ${message}`;
   }
 }
 
