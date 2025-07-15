@@ -1,7 +1,7 @@
 console.log("Content script loaded!");
 
 // 강조할 키워드
-const keyword = "로그인";
+const  keyword = "로그인";
 
 function highlightButtons() {
   const buttons = document.querySelectorAll("button, input[type='button'], a");

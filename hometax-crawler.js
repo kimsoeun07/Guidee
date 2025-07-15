@@ -27,15 +27,21 @@ async function waitForFrame(page, urlPart, timeout = 10000) {
     return;
   }
 
+  console.log("innerFrame 찾음:", innerFrame.url());
+
   const data = await innerFrame.evaluate(() => {
     const elements = Array.from(document.querySelectorAll("a"));
-    return elements.map((el) => ({
-      text: el.innerText,
-      href: el.href,
-    }));
+    return {
+      count: elements.length,
+      links: elements.map((el) => ({
+        text: el.innerText,
+        href: el.href,
+      }))
+    };
   });
 
-  fs.writeFileSync("hometax_data.json", JSON.stringify(data, null, 2), "utf-8");
+  console.log("찾은 링크 개수:", data.count);
+  fs.writeFileSync("hometax_data.json", JSON.stringify(data.links, null, 2), "utf-8");
 
   console.log("hometax_data.json 으로 저장 완료");
   await browser.close();
