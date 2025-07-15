@@ -1,19 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
   <head>
-    <title>My Sidepanel</title>
-    <script type="module" src="popup.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Assistant Sidepanel</title>
+    <link rel="stylesheet" href="popup.css" />
   </head>
   <body>
-    <h1>All sites sidepanel extension</h1>
-    <p>This side panel is enabled on all sites</p>
-    <input type="text" id="userInput" placeholder="질문을 입력하세요"></input>
-    <button id="askButton">질문 전송</button>
+    <div class="container">
+      <div class="header">
+        <h1>AI Assistant</h1>
+      </div>
 
-    <pre id="responseArea">응답 표시 위치</pre>
+      <div class="chat-container">
+        <div class="question-section">
+          <h3>질문</h3>
+          <div id="questionArea" class="question-display">
+            질문을 입력하고 전송 버튼을 눌러보세요
+          </div>
+        </div>
 
+        <div class="response-section">
+          <h3>응답</h3>
+          <div id="responseArea" class="response-display">
+            응답이 여기에 표시됩니다
+          </div>
+        </div>
+      </div>
+
+      <div class="input-container">
+        <input
+          type="text"
+          id="userInput"
+          placeholder="질문을 입력하세요"
+          maxlength="1000"
+        />
+        <button id="askButton" type="button">질문하기</button>
+      </div>
+    </div>
 
     <button id="runCrawler">crawling</button>
-
+    <script src="popup.js"></script>
   </body>
 </html>

@@ -16,13 +16,17 @@ const fs = require("fs");
 
   const data = await frame.evaluate(() => {
     const elements = Array.from(document.querySelectorAll("a"));
-    return elements.map((el) => ({
-      text: el.innerText,
-      href: el.href,
-    }));
+    return {
+      count: elements.length,
+      links: elements.map((el) => ({
+        text: el.innerText,
+        href: el.href,
+      }))
+    };
   });
 
-  fs.writeFileSync("hometax_data.json", JSON.stringify(data, null, 2), "utf-8");
+  console.log("찾은 링크 개수:", data.count);
+  fs.writeFileSync("hometax_data.json", JSON.stringify(data.links, null, 2), "utf-8");
 
   console.log("hometax_data.json 으로 저장 완료");
   await browser.close();
