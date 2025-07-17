@@ -130,3 +130,14 @@ function showCustomAlert(message) {
     alertDiv.remove();
   }, 2000); // 2초 후 자동 제거
 }
+
+
+// 여기부터 변경된 부분 긔~
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === "CRAWL_HTML") {
+    const htmlContent = document.documentElement.outerHTML;
+    sendResponse({ status: "✅ HTML 전송됨", html: htmlContent });
+  }
+  return true; // 비동기 sendResponse 보장용
+});
