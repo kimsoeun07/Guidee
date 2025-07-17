@@ -6,7 +6,7 @@ const API_CONFIG = {
   apiKey: 'AIzaSyDBTqzoQSE9o3B_YMR8yF3bayHdLVeq6bw' // 실제 환경에서는 안전하게 관리하세요
 };
 
-// 요청 제한을 위한 간단한 디바운스 함수
+// 연속적인 함수 호출을 제한하여 성능을 최적화하는 용도
 let requestTimeout;
 const debounce = (func, delay) => {
   return function(...args) {
@@ -60,7 +60,7 @@ const handleAPIResponse = (data) => {
   
   // 안전성 필터링 확인
   if (candidate.finishReason === 'SAFETY') {
-    throw new Error('안전성 필터에 의해 차단된 응답입니다.');
+    throw new Error('안전성 필터에 의해 차단된 답입니다.');
   }
 
   const result = candidate.content?.parts?.[0]?.text;
