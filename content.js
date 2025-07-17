@@ -1,44 +1,42 @@
-console.log("Content script loaded!");
-
-// 강조할 키워드
-const  keyword = "소득금액증명";
+const keyword = "소득금액증명";
 
 function highlightButtons() {
   const buttons = document.querySelectorAll("button, input[type='button'], a, span");
+
   for (let btn of buttons) {
-    const text = (btn.innerText || btn.value || "").trim().toLowerCase();
+    const text = (btn.textContent || btn.value || "").trim().toLowerCase();
+
     if (text.includes(keyword.toLowerCase())) {
-      // btn.style.border = "10px solid #ff4d4d";
-      // btn.style.padding = "30px";
-      // btn.style.boxShadow = "0 0 10px #ff4d4d";
-      // btn.style.borderRadius = "6px";
-      // btn.style.fontSize = "30px";
-      // btn.style.fontweight = "bold";
-      // btn.style.transition = "all 0.3s ease-in-out";
-      // btn.scrollIntoView({ behavior: "smooth", block: "center" });
-      // console.log("강조된 버튼:", text);
       Object.assign(btn.style, {
-        border: "10px solid #ff4d4d",
-        padding: " 50px", // 왼쪽 여백 늘림
-        boxShadow: "0 0 10px #ff4d4d",
-        borderRadius: "6px",
-        fontSize: "30px",
-        fontWeight: "bold",
-        background: "#fff", // 배경색 추가
-        position: "relative",
-        zIndex: "10",
-        transition: "all 0.3s ease-in-out"
+        border: "10px solid #ff4d4d !important",
+        padding: "50px !important",
+        boxShadow: "0 0 10px #ff4d4d !important",
+        borderRadius: "6px !important",
+        fontSize: "30px !important",
+        fontWeight: "bold !important",
+        background: "#fff !important",
+        position: "relative !important",
+        zIndex: "10 !important",
+        transition: "all 0.3s ease-in-out !important"
       });
       btn.scrollIntoView({ behavior: "smooth", block: "center" });
+      console.log("🔍 강조된 요소:", text);
+      // console.log("🔍 강조된 요소:", {
+      //   text,
+      //   tagName: btn.tagName,
+      //   className: btn.className,
+      //   id: btn.id,
+      //   outerHTML: btn.outerHTML
+      // });
       break;
     }
   }
 }
 
-// 최초 실행
+// 초기 실행
 highlightButtons();
 
-// 동적으로 버튼이 생길 때마다 강조
+// 동적 요소 탐지
 const observer = new MutationObserver(() => {
   highlightButtons();
 });
