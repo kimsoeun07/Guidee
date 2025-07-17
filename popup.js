@@ -66,13 +66,8 @@ const handleAPIResponse = (data) => {
   const candidate = data.candidates[0];
 
   // 안전성 필터링 확인
-<<<<<<< HEAD
-  if (candidate.finishReason === 'SAFETY') {
-    throw new Error('안전성 필터에 의해 차단된 답입니다.');
-=======
   if (candidate.finishReason === "SAFETY") {
     throw new Error("안전성 필터에 의해 차단된 응답입니다.");
->>>>>>> 14ae1c2c54af222e0d65e8fa9997ee36c71a4800
   }
 
   const result = candidate.content?.parts?.[0]?.text;
@@ -87,11 +82,7 @@ const handleAPIResponse = (data) => {
 const updateQuestionArea = (question) => {
   const questionArea = document.getElementById("questionArea");
   if (questionArea) {
-<<<<<<< HEAD
-    questionArea.textContent = `나 : ${message}`;
-=======
     questionArea.textContent = question;
->>>>>>> e6f817e5ad10f4b758d4c3e9ffeebe93de99e2a8
   }
 };
 
