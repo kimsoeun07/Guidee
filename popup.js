@@ -194,8 +194,8 @@ window.addEventListener("beforeunload", () => {
 });
 
 //html 받아서 처리하기
-document.getElementById("runCrawler").addEventListener("click", async () => {
-  console.log("🧠 버튼 클릭됨! content script에 HTML 요청 보냄!!");
+(async () => {
+  console.log("🧠 확장 열림! content script에 HTML 요청 보냄!!");
 
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
@@ -209,4 +209,4 @@ document.getElementById("runCrawler").addEventListener("click", async () => {
       console.log("✅ 응답 받음:", response);
     }
   });
-});
+})();
