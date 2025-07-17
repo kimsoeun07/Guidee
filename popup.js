@@ -199,14 +199,49 @@ window.addEventListener("beforeunload", () => {
 
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
-  chrome.tabs.sendMessage(tab.id, { type: "CRAWL_HTML" }, (response) => {
+  // content script 강제 실행
+  await chrome.scripting.executeScript({
+    target: { tabId: tab.id },
+    files: ["content.js"],
+  });
+
+  chrome.tabs.sendMessage(tab.id, { type: "CRAWL_HTML" }, async (response) => {
     if (chrome.runtime.lastError) {
       console.error(
         "❌ content script 응답 실패:",
         chrome.runtime.lastError.message
       );
-    } else {
-      console.log("✅ 응답 받음:", response);
+      updateResponseArea(
+        `❌ HTML 수집 실패: ${chrome.runtime.lastError.message}`,
+        true
+      );
+      setLoadingState(false);
+      return;
+    }
+
+    console.log("✅ 응답 받음:", response);
+    if (!response || !response.html) {
+      updateResponseArea("❌ HTML 데이터가 없습니다.", true);
+      setLoadingState(false);
+      return;
+    }
+
+    // 받은 html을 Gemini API 요청 텍스트에 포함시키기
+    const userInput = `아래 HTML 내용을 분석해서 요약해줘:\n${response.html}`;
+
+    try {
+      setLoadingState(true);
+      updateResponseArea("Gemini API 요청 중...");
+
+      const data = await callGeminiAPI(userInput);
+      const result = handleAPIResponse(data);
+
+      updateResponseArea(result);
+    } catch (error) {
+      console.error("API 요청 실패:", error);
+      updateResponseArea(`API 요청 오류: ${error.message}`, true);
+    } finally {
+      setLoadingState(false);
     }
   });
 })();
