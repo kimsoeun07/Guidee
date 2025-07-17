@@ -1,12 +1,12 @@
 console.log("Content script loaded!");
 
 // 강조할 키워드
-const  keyword = "공지사항";
+const  keyword = "사업용";
 
 function highlightButtons() {
-  const buttons = document.querySelectorAll("button, input[type='button'], a");
+  const buttons = document.querySelectorAll("button, input[type='button'], a, span, div");
   for (let btn of buttons) {
-    const text = (btn.innerText || btn.value || '').trim().toLowerCase();
+    const text = (btn.innerText || btn.value || "").trim().toLowerCase();
     if (text.includes(keyword.toLowerCase())) {
       // btn.style.border = "10px solid #ff4d4d";
       // btn.style.padding = "30px";
@@ -43,3 +43,30 @@ const observer = new MutationObserver(() => {
   highlightButtons();
 });
 observer.observe(document.body, { childList: true, subtree: true });
+
+//여기부터 은채가 수정함
+
+console.log("Content script loaded!");
+function savePageAsJson() {
+  const htmlContent = document.documentElement.outerHTML;
+  const data = { html: htmlContent };
+
+  console.log("📦 추출된 HTML JSON 데이터:", data);
+
+  const blob = new Blob([JSON.stringify(data, null, 2)], {
+    type: "application/json",
+  });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "page_content.json";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === "CRAWL_HTML") {
+    savePageAsJson();
+    sendResponse({ status: "✅ HTML 전송됨" });
+  }
+});
