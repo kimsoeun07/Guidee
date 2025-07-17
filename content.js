@@ -1,10 +1,10 @@
 console.log("Content script loaded!");
 
 // 강조할 키워드
-const  keyword = "사업용";
+const  keyword = "소득금액증명";
 
 function highlightButtons() {
-  const buttons = document.querySelectorAll("button, input[type='button'], a, span, div");
+  const buttons = document.querySelectorAll("button, input[type='button'], a, span");
   for (let btn of buttons) {
     const text = (btn.innerText || btn.value || "").trim().toLowerCase();
     if (text.includes(keyword.toLowerCase())) {
