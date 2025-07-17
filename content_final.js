@@ -4,6 +4,12 @@ console.log("Content script loaded!");
 // 강조할 키워드
 const keyword = "전자";
 
+const keywords = [];
+
+// for(int i = 0; i < keywords.length; i++) {
+//     highlightButtons();
+// };
+
 function highlightButtons() {
   const buttons = document.querySelectorAll("button, input[type='button'], a");  
   for (let btn of buttons) {    

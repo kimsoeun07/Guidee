@@ -26,7 +26,7 @@ const callGeminiAPI = async (userInput) => {
   const requestBody = {
     contents: [
       {
-        parts: [{ text: userInput }],
+        parts: [{ text: `답변 맨 위에 있는 문장은 없애고 숫자로 시작하고, 맨 뒤에 더 필요한거 있는지 질문하지 말아줘, https://hometax.go.kr/ 이 웹에서 할수 있는 방법을 순서대로 간결하게 답변해, 클릭해야 할 요소들을 []안에 넣어줘, [홈텍스 접속]단계는 생략해줘:\n${userInput}` }],
       },
     ],
     generationConfig: {
@@ -127,6 +127,18 @@ const handleUserRequest = async () => {
     updateResponseArea("질문을 입력해주세요.", true);
     return;
   }
+  //date 키워드 추출 후 데이터 저장
+  const extractKeywords = (text) => {
+    const regex = /\[([^\]]+)\]/g;
+    const keywords = [];
+    let match;
+  
+    while ((match = regex.exec(text)) !== null) {
+      keywords.push(match[1]); // 대괄호 안 내용만 추출
+    }
+  
+    return keywords;
+  };
 
   // 질문 영역에 사용자 입력 표시
   updateQuestionArea(userInput);
@@ -141,6 +153,11 @@ const handleUserRequest = async () => {
 
     const result = handleAPIResponse(data);
     updateResponseArea(result);
+
+    
+    const keywords = extractKeywords(result);
+    console.log(keywords);
+
 
     // 성공적인 요청 후 입력 필드 초기화
     document.getElementById("userInput").value = "";
@@ -237,6 +254,7 @@ window.addEventListener("beforeunload", () => {
       const result = handleAPIResponse(data);
 
       updateResponseArea(result);
+
     } catch (error) {
       console.error("API 요청 실패:", error);
       updateResponseArea(`API 요청 오류: ${error.message}`, true);
