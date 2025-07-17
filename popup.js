@@ -1,4 +1,5 @@
 console.log("popup.js 실행 시작");
+// import highlightButtons from './content_heboja.js';
 
 // API 구성 (실제 사용 시 API 키를 안전하게 관리하세요)
 const API_CONFIG = {
@@ -155,9 +156,35 @@ const handleUserRequest = async () => {
     updateResponseArea(result);
 
     
+    //최종 키워드
     const keywords = extractKeywords(result);
     console.log(keywords);
+    
+    //김소은이 수정한 부분
+    // for(i = 0; i < (keywords.length); i++){
+    //   console.log("강조할 키워드:", keywords[i]);
+    //   if(keywords[i]){
+    //     highlightButtons(keywords[i]);
+    //   }
+      
+    // }
 
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+    for (let i = 0; i < keywords.length; i++) {
+      chrome.tabs.sendMessage(tab.id, {
+        type: "HIGHLIGHT_BUTTON",
+        keyword: keywords[i],
+      });
+    }
+    // 동적으로 버튼이 생길 때마다 강조
+    // const observer = new MutationObserver(() => {  
+    //   for(i = 0; i < (keywords.length); i++){
+    //     highlightButtons(keywords[i]);
+    //   }
+    // });
+    // observer.observe(document.body, { childList: true, subtree: true });
+    
 
     // 성공적인 요청 후 입력 필드 초기화
     document.getElementById("userInput").value = "";
@@ -219,7 +246,7 @@ window.addEventListener("beforeunload", () => {
   // content script 강제 실행
   await chrome.scripting.executeScript({
     target: { tabId: tab.id },
-    files: ["content.js"],
+    files: ["content_heboja.js"],
   });
 
   chrome.tabs.sendMessage(tab.id, { type: "CRAWL_HTML" }, async (response) => {
