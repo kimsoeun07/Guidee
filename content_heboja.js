@@ -10,6 +10,7 @@ function highlightButtons(keyword) {
     const text = (btn.textContent  || btn.value || '').trim().toLowerCase();    
 
     if (keyword && text.includes(keyword.toLowerCase())) {
+      if(keyword === "조회") return;
       Object.assign(btn.style, {
         border: "10px solid #ff4d4d",
         padding: "50px",
